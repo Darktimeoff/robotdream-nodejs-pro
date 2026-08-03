@@ -1,0 +1,6 @@
+node_modules/
+
+# TLS keys and certificates — never commit
+*.pem
+*.key
+*.crt
