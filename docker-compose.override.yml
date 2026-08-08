@@ -1,0 +1,21 @@
+services:
+  api:
+    build:
+      target: builder
+    image: homework5-server:dev
+    command: ["npm", "run", "dev"]
+    environment:
+      PORT: 3000
+      NODE_ENV: development
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./src:/src/src
+      - ./package.json:/src/package.json
+      - ./tsconfig.json:/src/tsconfig.json
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://localhost:$$PORT/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s

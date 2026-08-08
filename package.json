@@ -16,6 +16,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
+    "dev": "node --watch src/index.ts",
     "start": "node --env-file=.env src/index.ts"
   },
   "dependencies": {
