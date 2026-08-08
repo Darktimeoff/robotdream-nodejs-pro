@@ -4,7 +4,7 @@ WORKDIR /src
 
 COPY package*.json ./
 
-RUN npm clean-install
+RUN npm ci
 
 COPY . .
 
@@ -21,10 +21,13 @@ RUN addgroup -S appuser && adduser -S -G appuser appuser
 COPY package*.json ./
 COPY --from=builder /src/dist ./dist
 
-RUN npm clean-install --omit=dev && chown -R appuser:appuser /app
+RUN npm ci --omit=dev && chown -R appuser:appuser /app
 
 USER appuser
 
 EXPOSE 3000
+
+HEALTHCHECK --interval=10s --timeout=5s --start-period=10s --retries=5 \
+  CMD wget -q -O /dev/null http://localhost:${PORT:-3000}/health || exit 1
 
 CMD ["node", "dist/index.js"]
